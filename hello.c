@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// 트리 노드 구조체 정의
+// 이진 트리 노드 구조체 정의
 struct TreeNode {
     int data;
     struct TreeNode* left;
@@ -21,7 +21,7 @@ struct TreeNode* createNode(int value) {
     return newNode;
 }
 
-// 전위 순회 함수
+// 전위 순회 함수 (루트 -> 왼쪽 -> 오른쪽)
 void preorderTraversal(struct TreeNode* node) {
     if (node == NULL) return;
     printf("%d ", node->data);
@@ -29,7 +29,7 @@ void preorderTraversal(struct TreeNode* node) {
     preorderTraversal(node->right);
 }
 
-// 중위 순회 함수
+// 중위 순회 함수 (왼쪽 -> 루트 -> 오른쪽)
 void inorderTraversal(struct TreeNode* node) {
     if (node == NULL) return;
     inorderTraversal(node->left);
@@ -37,7 +37,7 @@ void inorderTraversal(struct TreeNode* node) {
     inorderTraversal(node->right);
 }
 
-// 후위 순회 함수
+// 후위 순회 함수 (왼쪽 -> 오른쪽 -> 루트)
 void postorderTraversal(struct TreeNode* node) {
     if (node == NULL) return;
     postorderTraversal(node->left);
@@ -64,9 +64,11 @@ void printChildren(struct TreeNode* node) {
     if (node == NULL) return;
     printf("%d의 자식 노드: ", node->data);
     if (node->left)
-        printf("%d ", node->left->data);
+        printf("왼쪽 자식 = %d ", node->left->data);
     if (node->right)
-        printf("%d ", node->right->data);
+        printf("오른쪽 자식 = %d ", node->right->data);
+    if (!node->left && !node->right)
+        printf("자식 노드 없음");
     printf("\n");
 }
 
@@ -76,9 +78,12 @@ void printSiblings(struct TreeNode* root, int target) {
     if ((root->left && root->left->data == target) || (root->right && root->right->data == target)) {
         printf("%d의 형제 노드: ", target);
         if (root->left && root->left->data != target)
-            printf("%d ", root->left->data);
+            printf("왼쪽 형제 = %d ", root->left->data);
         if (root->right && root->right->data != target)
-            printf("%d ", root->right->data);
+            printf("오른쪽 형제 = %d ", root->right->data);
+        if ((root->left && root->left->data == target && root->right == NULL) ||
+            (root->right && root->right->data == target && root->left == NULL))
+            printf("형제 노드 없음");
         printf("\n");
         return;
     }
@@ -95,28 +100,38 @@ void freeTree(struct TreeNode* node) {
 }
 
 int main() {
-    // 트리 예시 생성
+    // 이진 트리 예시 생성
     struct TreeNode* root = NULL;
-    root = createNode(1);
+    root = createNode(8);
     if (root != NULL) {
-        root->left = createNode(2);
-        root->right = createNode(3);
+        root->left = createNode(3);
+        root->right = createNode(10);
         if (root->left != NULL) {
-            root->left->left = createNode(4);
-            root->left->right = createNode(5);
+            root->left->left = createNode(1);
+            root->left->right = createNode(6);
+            if (root->left->right != NULL) {
+                root->left->right->left = createNode(4);
+                root->left->right->right = createNode(7);
+            }
+        }
+        if (root->right != NULL) {
+            root->right->right = createNode(14);
+            if (root->right->right != NULL) {
+                root->right->right->left = createNode(13);
+            }
         }
     }
 
     // 트리 순회 결과 출력
-    printf("전위 순회 결과: ");
+    printf("전위 순회 결과 (루트 -> 왼쪽 -> 오른쪽): ");
     preorderTraversal(root);
     printf("\n");
 
-    printf("중위 순회 결과: ");
+    printf("중위 순회 결과 (왼쪽 -> 루트 -> 오른쪽): ");
     inorderTraversal(root);
     printf("\n");
 
-    printf("후위 순회 결과: ");
+    printf("후위 순회 결과 (왼쪽 -> 오른쪽 -> 루트): ");
     postorderTraversal(root);
     printf("\n\n");
 
@@ -125,8 +140,10 @@ int main() {
     printf("\n");
     printChildren(root);
     printChildren(root->left);
-    printSiblings(root, 2);
-    printSiblings(root, 4);
+    printChildren(root->right);
+    printSiblings(root, 3);
+    printSiblings(root, 1);
+    printSiblings(root, 13);
 
     // 메모리 해제
     freeTree(root);
