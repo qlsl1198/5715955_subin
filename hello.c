@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
-// 이진 트리 노드 구조체 정의
+// 완전 이진 트리 노드 구조체 정의
 struct TreeNode {
     int data;
     struct TreeNode* left;
@@ -19,6 +20,35 @@ struct TreeNode* createNode(int value) {
     newNode->left = NULL;
     newNode->right = NULL;
     return newNode;
+}
+
+// 완전 이진 트리에 노드 삽입 함수
+void insertNode(struct TreeNode** root, int value) {
+    if (*root == NULL) {
+        *root = createNode(value);
+        return;
+    }
+
+    struct TreeNode* queue[1000];
+    int front = 0, rear = 0;
+    queue[rear++] = *root;
+
+    while (front < rear) {
+        struct TreeNode* node = queue[front++];
+        if (node->left == NULL) {
+            node->left = createNode(value);
+            return;
+        } else {
+            queue[rear++] = node->left;
+        }
+
+        if (node->right == NULL) {
+            node->right = createNode(value);
+            return;
+        } else {
+            queue[rear++] = node->right;
+        }
+    }
 }
 
 // 전위 순회 함수 (루트 -> 왼쪽 -> 오른쪽)
@@ -45,50 +75,64 @@ void postorderTraversal(struct TreeNode* node) {
     printf("%d ", node->data);
 }
 
-// 조상 노드 출력 함수
-void printAncestors(struct TreeNode* root, int target) {
+// 레벨 순회 함수 (너비 우선 탐색)
+void levelOrderTraversal(struct TreeNode* root) {
     if (root == NULL) return;
-    if (root->data == target) {
-        printf("%d의 조상 노드: ", target);
-        return;
+
+    struct TreeNode* queue[1000];
+    int front = 0, rear = 0;
+    queue[rear++] = root;
+
+    while (front < rear) {
+        struct TreeNode* node = queue[front++];
+        printf("%d ", node->data);
+
+        if (node->left != NULL)
+            queue[rear++] = node->left;
+        if (node->right != NULL)
+            queue[rear++] = node->right;
     }
-    printf("%d ", root->data);
-    if (target < root->data)
-        printAncestors(root->left, target);
-    else
-        printAncestors(root->right, target);
 }
 
-// 자식 노드 출력 함수
-void printChildren(struct TreeNode* node) {
-    if (node == NULL) return;
-    printf("%d의 자식 노드: ", node->data);
-    if (node->left)
-        printf("왼쪽 자식 = %d ", node->left->data);
-    if (node->right)
-        printf("오른쪽 자식 = %d ", node->right->data);
-    if (!node->left && !node->right)
-        printf("자식 노드 없음");
-    printf("\n");
+// 트리의 높이를 계산하는 함수
+int getHeight(struct TreeNode* node) {
+    if (node == NULL)
+        return 0;
+    int leftHeight = getHeight(node->left);
+    int rightHeight = getHeight(node->right);
+    return (leftHeight > rightHeight) ? leftHeight + 1 : rightHeight + 1;
 }
 
-// 형제 노드 출력 함수
-void printSiblings(struct TreeNode* root, int target) {
-    if (root == NULL || (root->left == NULL && root->right == NULL)) return;
-    if ((root->left && root->left->data == target) || (root->right && root->right->data == target)) {
-        printf("%d의 형제 노드: ", target);
-        if (root->left && root->left->data != target)
-            printf("왼쪽 형제 = %d ", root->left->data);
-        if (root->right && root->right->data != target)
-            printf("오른쪽 형제 = %d ", root->right->data);
-        if ((root->left && root->left->data == target && root->right == NULL) ||
-            (root->right && root->right->data == target && root->left == NULL))
-            printf("형제 노드 없음");
-        printf("\n");
-        return;
+// 트리가 완전 이진 트리인지 확인하는 함수
+int isCompleteBinaryTree(struct TreeNode* root) {
+    if (root == NULL)
+        return 1;
+
+    struct TreeNode* queue[1000];
+    int front = 0, rear = 0;
+    int flag = 0;
+    queue[rear++] = root;
+
+    while (front < rear) {
+        struct TreeNode* node = queue[front++];
+
+        if (node->left) {
+            if (flag)
+                return 0;
+            queue[rear++] = node->left;
+        } else {
+            flag = 1;
+        }
+
+        if (node->right) {
+            if (flag)
+                return 0;
+            queue[rear++] = node->right;
+        } else {
+            flag = 1;
+        }
     }
-    printSiblings(root->left, target);
-    printSiblings(root->right, target);
+    return 1;
 }
 
 // 트리 메모리 해제 함수
@@ -100,53 +144,40 @@ void freeTree(struct TreeNode* node) {
 }
 
 int main() {
-    // 이진 트리 예시 생성
     struct TreeNode* root = NULL;
-    root = createNode(8);
-    if (root != NULL) {
-        root->left = createNode(3);
-        root->right = createNode(10);
-        if (root->left != NULL) {
-            root->left->left = createNode(1);
-            root->left->right = createNode(6);
-            if (root->left->right != NULL) {
-                root->left->right->left = createNode(4);
-                root->left->right->right = createNode(7);
-            }
-        }
-        if (root->right != NULL) {
-            root->right->right = createNode(14);
-            if (root->right->right != NULL) {
-                root->right->right->left = createNode(13);
-            }
-        }
+
+    // 완전 이진 트리 생성
+    for (int i = 1; i <= 10; i++) {
+        insertNode(&root, i);
     }
 
+    printf("완전 이진 트리 생성 완료\n\n");
+
     // 트리 순회 결과 출력
-    printf("전위 순회 결과 (루트 -> 왼쪽 -> 오른쪽): ");
+    printf("전위 순회 결과: ");
     preorderTraversal(root);
     printf("\n");
 
-    printf("중위 순회 결과 (왼쪽 -> 루트 -> 오른쪽): ");
+    printf("중위 순회 결과: ");
     inorderTraversal(root);
     printf("\n");
 
-    printf("후위 순회 결과 (왼쪽 -> 오른쪽 -> 루트): ");
+    printf("후위 순회 결과: ");
     postorderTraversal(root);
+    printf("\n");
+
+    printf("레벨 순회 결과: ");
+    levelOrderTraversal(root);
     printf("\n\n");
 
-    // 조상, 자식, 형제 노드 출력
-    printAncestors(root, 4);
-    printf("\n");
-    printChildren(root);
-    printChildren(root->left);
-    printChildren(root->right);
-    printSiblings(root, 3);
-    printSiblings(root, 1);
-    printSiblings(root, 13);
+    // 트리 정보 출력
+    printf("트리의 높이: %d\n", getHeight(root));
+    printf("완전 이진 트리 여부: %s\n", isCompleteBinaryTree(root) ? "예" : "아니오");
 
     // 메모리 해제
     freeTree(root);
 
     return 0;
+    //asd
+    
 }
