@@ -130,7 +130,6 @@ int main(){
     ArrayOrders(arr);
     LinkOrders(root);
 
-    // 메모리 해제
 
     return 0;
 }
