@@ -211,7 +211,6 @@ void printLevelOrder(TreeNode* root){
 
 // 사용자 인터페이스 실행 함수
 void runUserInterface(TreeNode** root){
-    bool exit = false;
     while(true){
         char choice;
         int data, movements;
@@ -243,7 +242,7 @@ void runUserInterface(TreeNode** root){
                 printLevelOrder(*root);
                 break;
             case 'c':  // 프로그램 종료
-                exit = true;
+                exit(1);
                 break;
             default:
                 printf("잘못된 선택입니다.\n");
