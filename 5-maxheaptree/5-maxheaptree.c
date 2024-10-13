@@ -212,7 +212,7 @@ void printLevelOrder(TreeNode* root){
 // 사용자 인터페이스 실행 함수
 void runUserInterface(TreeNode** root){
     bool exit = false;
-    while(!exit){
+    while(true){
         char choice;
         int data, movements;
         printf("---------------------\n");
