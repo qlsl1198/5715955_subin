@@ -267,9 +267,8 @@ int main(){
     int inputData[] = {90, 89, 70, 36, 75, 63, 65, 21, 18, 53};
     int size = sizeof(inputData) / sizeof(inputData[0]);
     int movements = 0;
-    TreeNode* root = NULL;
     
-    root = GenerateMaxHeapTree(inputData, size, &movements);
+    TreeNode* root = GenerateMaxHeapTree(inputData, size, &movements);
 
     // 사용자 인터페이스 실행
     runUserInterface(&root);
