@@ -250,6 +250,17 @@ void runUserInterface(TreeNode** root){
     }
 }
 
+// 트리 생성 함수
+TreeNode *GenerateMaxHeapTree(int inputData[], int size, int* movements){
+    TreeNode* root = NULL;
+
+     for(int i = 0; i < size; i++){
+        InsertMaxHeapTree(&root, inputData[i], movements, false);
+    }
+
+    return root;
+}
+
 // 메인 함수
 int main(){
     // 초기 데이터를 이용해 트리 생성
@@ -258,9 +269,7 @@ int main(){
     int movements = 0;
     TreeNode* root = NULL;
     
-    for(int i = 0; i < size; i++){
-        InsertMaxHeapTree(&root, inputData[i], &movements, false);
-    }
+    root = GenerateMaxHeapTree(inputData, size, &movements);
 
     // 사용자 인터페이스 실행
     runUserInterface(&root);
