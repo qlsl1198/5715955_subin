@@ -65,23 +65,25 @@ void heapifyDown(TreeNode* node, int* movements, TreeNode* root) {
         TreeNode* left = node->left;
         TreeNode* right = node->right;
 
+        // 왼쪽 자식과 비교하여 더 큰 자식 선택
         if (left && left->data > largest->data)
             largest = left;
+
+        // 오른쪽 자식과 비교하여 더 큰 자식 선택
         if (right && right->data > largest->data)
             largest = right;
 
+        // 더 큰 자식과 현재 노드를 교환
         if (largest != node) {
-            swap(&node->data, &largest->data);
-            (*movements)++;
+            swap(&node->data, &largest->data);  // 값 교환
+            (*movements)++;  // 이동 횟수 증가
             printTree(root);  // 트리 상태 출력
-            node = largest;
+            node = largest;   // 현재 노드를 갱신하여 계속 힙 재정렬
         } else {
-            break;
+            break;  // 더 이상 교환이 필요 없으면 종료
         }
     }
-}
-
-// 최대 힙 트리에 노드를 삽입하는 함수
+}// 최대 힙 트리에 노드를 삽입하는 함수
 void InsertMaxHeapTree(TreeNode** root, int data, int* movements, bool showOutput) {
     if (*root == NULL) {
         *root = createNode(data);
@@ -155,6 +157,7 @@ void deleteRoot(TreeNode** root, int* movements) {
 
     // 마지막 노드와 루트 노드를 교환한 후 마지막 노드를 삭제
     swap(&(*root)->data, &lastNode->data);
+    (*movements)++;  // 루트와 마지막 노드의 값 교환 시 이동 횟수 증가
 
     if (lastNode->parent->left == lastNode)
         lastNode->parent->left = NULL;
@@ -167,7 +170,6 @@ void deleteRoot(TreeNode** root, int* movements) {
     heapifyDown(*root, movements, *root);
 }
 
-// 트리의 레벨별로 노드를 출력하는 함수
 void printLevelOrder(TreeNode* root){
   if(root == NULL){
       printf("트리가 비어 있습니다.\n");
