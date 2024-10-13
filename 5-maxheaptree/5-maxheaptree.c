@@ -147,7 +147,7 @@ void deleteRoot(TreeNode** root, int* movements) {
         printf("트리가 비어 있습니다.\n");
         return;
     }
-
+     
     TreeNode* lastNode = findLastNode(*root);  // 마지막 노드를 찾음
     if (lastNode == *root) {  // 트리에 노드가 하나밖에 없으면
         free(*root);
@@ -167,6 +167,7 @@ void deleteRoot(TreeNode** root, int* movements) {
     free(lastNode);
 
     // 루트에서부터 힙 재정렬
+    printTree(*root);
     heapifyDown(*root, movements, *root);
 }
 
@@ -236,7 +237,6 @@ void runUserInterface(TreeNode** root){
             case 'd':  // 루트 노드 삭제
                 movements = 0;
                 deleteRoot(root, &movements);
-                printTree(*root);  // 트리 상태 출력
                 printf("노드가 이동된 횟수: %d\n", movements);
                 break;
             case 'p':  // 트리 레벨별 출력
