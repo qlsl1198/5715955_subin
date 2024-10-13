@@ -266,7 +266,7 @@ TreeNode *GenerateMaxHeapTree(int inputData[], int size, int* movements){
 // 메인 함수
 int main(){
     // 초기 데이터를 이용해 트리 생성
-    int inputData[] = {90, 89, 70, 36, 75, 63, 65, 21, 18, 53};
+    int inputData[] = {90, 89, 70, 36, 75, 63, 65, 21, 18, 15};
     int size = sizeof(inputData) / sizeof(inputData[0]);
     int movements = 0;
     
