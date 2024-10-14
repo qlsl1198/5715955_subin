@@ -150,7 +150,7 @@ void freeThreadTree(ThreadNode* root) {
 }
 
 int main() {
-    int inputData[] = {4, 1, 9, 13, 15, 3, 6, 14, 7, 10, 12, 2, 5, 8, 7};
+    int inputData[] = {4, 1, 9, 13, 15, 3, 6, 14, 7, 10, 12, 2, 5, 8, 11};
     int size = sizeof(inputData) / sizeof(inputData[0]);
 
     TreeNode* root = GenerateBinaryTree(inputData, size);
