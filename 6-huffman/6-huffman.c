@@ -128,7 +128,7 @@ TreeNode* buildHuffmanTree(char characters[], int frequencies[], int size) {
         TreeNode* parent = createTreeNode('\0', left->frequency + right->frequency);
         parent->left = left;
         parent->right = right;
-        printf("/// %d + %d = %d\n", left->frequency, right->frequency, parent->frequency);
+        printf("///%d + %d -> %d\n", left->frequency, right->frequency, parent->frequency);
 
         // 새로운 부모 노드를 다시 우선순위 큐에 삽입
         insertMinHeap(minHeap, parent);
