@@ -170,6 +170,8 @@ void BFS(GraphMatType* g, int start, int end) {
             }
         }
     }
+    printf("\n탐색 실패\n");
+    printf("방문한 노드의 수 %d\n", q);
 }
 
 int main(){
