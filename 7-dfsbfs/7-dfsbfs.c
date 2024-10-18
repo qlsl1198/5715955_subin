@@ -189,10 +189,10 @@ int main(){
 
         switch (a) {
             case 1:  // DFS
-    printf("시작 정점과 목표 정점을 입력하세요: ");
-    scanf("%d %d", &start, &end);
-    DFS(g, start, end);
-    break;
+                printf("시작 정점과 목표 정점을 입력하세요: ");
+                scanf("%d %d", &start, &end);
+                DFS(g, start, end);
+                break;
             
             case 2:  // BFS
                 printf("시작 정점과 탐색 값: ");
