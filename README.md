@@ -14,12 +14,6 @@
 - 이진 트리 (Binary Tree)
 - 해시 테이블 (Hash Table)
 
-## 개발 환경
-
-- 운영체제: Linux 또는 macOS
-- 컴파일러: GCC
-- 빌드 도구: Make
-
 ## 학습 목표
 
 - C언어의 포인터와 메모리 관리 이해
