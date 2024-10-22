@@ -195,7 +195,7 @@ int main(void)
     
     QuickKruskal(g);
     MinHeapKruskal(g);
-
+ 
 	free(g);
 	return 0;
 }
