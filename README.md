@@ -13,6 +13,8 @@
 - 큐 (Queue)
 - 이진 트리 (Binary Tree)
 - 해시 테이블 (Hash Table)
+- 우선순위 큐와 힙 (Priority Queue & Heap)
+- 그래프 (Graph)
 
 ## 학습 목표
 
