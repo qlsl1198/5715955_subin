@@ -6,33 +6,37 @@
 #define MAX_VERTICES 100
 #define INF 1000L
 
+// 인접 리스트의 노드 구조체
+typedef struct EdgeNode {
+    int vertex;
+    int weight;
+    struct EdgeNode* next;
+} EdgeNode;
+
+// 그래프 구조체
+typedef struct GraphType {
+    int n;
+    EdgeNode* adj_list[MAX_VERTICES];
+} GraphType;
+
+// 최소 힙에 저장할 요소
 typedef struct {
     int vertex;
     int key;
 } Element;
 
+// 최소 힙 구조체
 typedef struct {
     Element heap[MAX_VERTICES];
     int heap_size;
 } MinHeap;
 
-struct Edge {
-    int start, end, weight;
-};
-
-typedef struct GraphType {
-    int n;
-    int weight[MAX_VERTICES][MAX_VERTICES];
-    struct Edge edges[2 * MAX_VERTICES];
-} GraphType;
-
-int selected[MAX_VERTICES];
-int distance[MAX_VERTICES];
-
-void init(MinHeap* h) {
+// 힙 초기화
+void init_min_heap(MinHeap* h) {
     h->heap_size = 0;
 }
 
+// 힙에 요소 삽입
 void insert_min_heap(MinHeap* h, int vertex, int key) {
     int i = ++(h->heap_size);
     while ((i != 1) && (key < h->heap[i / 2].key)) {
@@ -43,6 +47,7 @@ void insert_min_heap(MinHeap* h, int vertex, int key) {
     h->heap[i].key = key;
 }
 
+// 힙에서 최소값 삭제
 Element delete_min_heap(MinHeap* h) {
     int parent, child;
     Element item, temp;
@@ -65,50 +70,55 @@ Element delete_min_heap(MinHeap* h) {
     return item;
 }
 
+// 그래프 초기화
 void graph_init(GraphType* g) {
     g->n = 0;
     for (int i = 0; i < MAX_VERTICES; i++) {
-        for (int j = 0; j < MAX_VERTICES; j++) {
-            g->weight[i][j] = INF;
-        }
+        g->adj_list[i] = NULL;
     }
 }
 
-void insert_edge(GraphType* g, int start, int end, int w) {
-    g->edges[g->n].start = start;
-    g->edges[g->n].end = end;
-    g->edges[g->n].weight = w;
-    g->n++;
+// 간선 추가 (연결 리스트 사용)
+void insert_edge(GraphType* g, int start, int end, int weight) {
+    EdgeNode* node = (EdgeNode*)malloc(sizeof(EdgeNode));
+    node->vertex = end;
+    node->weight = weight;
+    node->next = g->adj_list[start];
+    g->adj_list[start] = node;
 
-    g->weight[start][end] = w;
-    g->weight[end][start] = w;
+    // 무방향 그래프이므로 반대 방향도 추가
+    node = (EdgeNode*)malloc(sizeof(EdgeNode));
+    node->vertex = start;
+    node->weight = weight;
+    node->next = g->adj_list[end];
+    g->adj_list[end] = node;
 }
 
-void Dijkstra(GraphType* g) {
-    int i, u, v;
+// 다익스트라 알고리즘
+void Dijkstra(GraphType* g, int start) {
     MinHeap h;
-    init(&h);
+    init_min_heap(&h);
+    int distance[MAX_VERTICES];
+    int selected[MAX_VERTICES] = { FALSE };
     int order[MAX_VERTICES];
     int count = 0;
 
-    for (u = 0; u < g->n; u++) {
-        distance[u] = INF;
-        selected[u] = FALSE;
+    for (int i = 0; i < MAX_VERTICES; i++) {
+        distance[i] = INF;
     }
-    distance[1] = 0;
-    insert_min_heap(&h, 1, 0);
+    distance[start] = 0;
+    insert_min_heap(&h, start, 0);
 
     while (h.heap_size > 0) {
         Element min = delete_min_heap(&h);
-        u = min.vertex;
+        int u = min.vertex;
 
         if (selected[u]) continue;
         selected[u] = TRUE;
         order[count++] = u;  // 발견 순서 저장
 
-        printf("Distance : ");
-        // Print distance array
-        for (int j = 1; j <= 10; j++) {
+        printf("Distance: ");
+        for (int j = 1; j <= g->n; j++) {
             if (distance[j] == INF)
                 printf(" *");
             else
@@ -116,20 +126,20 @@ void Dijkstra(GraphType* g) {
         }
         printf("\n");
 
-        printf("Found : ");
-        // Print Found array
-        for (int j = 1; j <= 10; j++) {
+        printf("Found: ");
+        for (int j = 1; j <= g->n; j++) {
             printf(" %d", selected[j]);
         }
         printf("\n\n");
 
-        for (v = 0; v < g->n; v++) {
-            if (g->weight[u][v] != INF && !selected[v]) {
-                int new_dist = distance[u] + g->weight[u][v];
-                if (new_dist < distance[v]) {
-                    distance[v] = new_dist;
-                    insert_min_heap(&h, v, distance[v]);
-                }
+        // 인접 리스트 탐색
+        for (EdgeNode* node = g->adj_list[u]; node != NULL; node = node->next) {
+            int v = node->vertex;
+            int weight = node->weight;
+
+            if (!selected[v] && distance[u] + weight < distance[v]) {
+                distance[v] = distance[u] + weight;
+                insert_min_heap(&h, v, distance[v]);
             }
         }
     }
@@ -141,7 +151,7 @@ void Dijkstra(GraphType* g) {
     printf("\n");
 }
 
-
+// 그래프 데이터 추가
 void GenerateGraph(GraphType* g) {
     insert_edge(g, 1, 2, 3);
     insert_edge(g, 1, 6, 11);
@@ -161,7 +171,6 @@ void GenerateGraph(GraphType* g) {
     insert_edge(g, 5, 10, 17);
     insert_edge(g, 7, 8, 13);
     insert_edge(g, 8, 10, 15);
-    insert_edge(g, 9, 10, 10);
 }
 
 int main(void) {
@@ -170,8 +179,9 @@ int main(void) {
     graph_init(g);
 
     GenerateGraph(g);
+    g->n = 10;  // 그래프의 정점 수 설정 (1부터 10까지 사용)
 
-    Dijkstra(g);
+    Dijkstra(g, 1);  // 1번 정점을 시작으로 다익스트라 수행
 
     free(g);
     return 0;
