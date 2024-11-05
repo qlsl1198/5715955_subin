@@ -1,3 +1,1 @@
 ![](./result.png)
-
-![](./bonus.png)
