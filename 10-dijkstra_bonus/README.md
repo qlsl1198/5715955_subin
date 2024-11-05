@@ -1,2 +1,2 @@
 ![](./result.png)
-![](./bonus.png)
+![](./heap_bonus.png)
