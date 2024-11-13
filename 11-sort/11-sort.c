@@ -123,6 +123,7 @@ void doBubbleSort(int randomData[]) {
 
 int main() {
     int randomData[SIZE];
+    
     generateRandomData(randomData);
     doSelectionSort(randomData);
     doInsertionSort(randomData);
