@@ -12,7 +12,6 @@ void swap(int *a, int *b){
 }
 
 void generateRandomData(int randomData[]) {
-    srand(time(NULL));
     for (int i = 0; i < SIZE; i++) {
         randomData[i] = rand() % (MAX_VALUE + 1);
     }
@@ -42,9 +41,7 @@ void doSelectionSort(int randomData[]) {
             }
         }
         if (min_idx != i) {
-            int temp = tempData[i];
-            tempData[i] = tempData[min_idx];
-            tempData[min_idx] = temp;
+            swap(&tempData[i], &tempData[min_idx]);
             swaps++;
         }
         if ((i + 1) % 20 == 10 || i == SIZE - 2) {
@@ -54,16 +51,15 @@ void doSelectionSort(int randomData[]) {
     }
 }
 
-void doInsertionSort(int randomData[]) {
+void doInsertionSort(int originalData[]) {
     int totalComparisons = 0;
     int insert_sortedData[SIZE];
+    srand(time(NULL));
     
     for (int k = 0; k < 20; k++) {
         int tempData[SIZE];
-        for (int i = 0; i < SIZE; i++) {
-            tempData[i] = randomData[i];
-        }
-        int comparisons = 0; // 비교 횟수 카운트
+        generateRandomData(tempData);
+        int comparisons = 0;
         for (int i = 1; i < SIZE; i++) {
             int key = tempData[i];
             int j = i - 1;
@@ -73,15 +69,23 @@ void doInsertionSort(int randomData[]) {
                 comparisons++;
             }
             tempData[j + 1] = key;
-            comparisons++; // 마지막 비교 횟수 추가
+            comparisons++;
         }
-        totalComparisons += comparisons; // 최종 비교 횟수 저장
-        
-        if (k == 19) {
-            for (int i = 0; i < SIZE; i++) {
-                insert_sortedData[i] = tempData[i];
-            }
+        totalComparisons += comparisons;
+    }
+    
+    // 원래 배열을 정렬
+    for (int i = 0; i < SIZE; i++) {
+        insert_sortedData[i] = originalData[i];
+    }
+    for (int i = 1; i < SIZE; i++) {
+        int key = insert_sortedData[i];
+        int j = i - 1;
+        while (j >= 0 && insert_sortedData[j] > key) {
+            insert_sortedData[j + 1] = insert_sortedData[j];
+            j--;
         }
+        insert_sortedData[j + 1] = key;
     }
     
     printf("Insertion Sort Compare Average: %d\n", totalComparisons / 20);
@@ -89,29 +93,34 @@ void doInsertionSort(int randomData[]) {
     printArray(insert_sortedData, SIZE);
 }
 
-void doBubbleSort(int randomData[]) {
+void doBubbleSort(int originalData[]) {
     int totalSwaps = 0;
-    int bubble_sortedData[SIZE], temp;
+    int bubble_sortedData[SIZE];
+    srand(time(NULL));
     
     for (int k = 0; k < 20; k++) {
         int tempData[SIZE];
-        for (int i = 0; i < SIZE; i++) {
-            tempData[i] = randomData[i];
-        }
-        int swaps = 0; // 이동 횟수 카운트
+        generateRandomData(tempData);
+        int swaps = 0;
         for (int i = 0; i < SIZE - 1; i++) {
             for (int j = 0; j < SIZE - i - 1; j++) {
                 if (tempData[j] > tempData[j + 1]) {
                     swap(&tempData[j], &tempData[j + 1]);
-                    swaps += 3; // swap 코드 사용 시 3회 이동
+                    swaps += 3;
                 }
             }
         }
-        totalSwaps += swaps; // 최종 이동 횟수 저장
-        
-        if (k == 19) {
-            for (int i = 0; i < SIZE; i++) {
-                bubble_sortedData[i] = tempData[i];
+        totalSwaps += swaps;
+    }
+    
+    // 원래 배열을 정렬
+    for (int i = 0; i < SIZE; i++) {
+        bubble_sortedData[i] = originalData[i];
+    }
+    for (int i = 0; i < SIZE - 1; i++) {
+        for (int j = 0; j < SIZE - i - 1; j++) {
+            if (bubble_sortedData[j] > bubble_sortedData[j + 1]) {
+                swap(&bubble_sortedData[j], &bubble_sortedData[j + 1]);
             }
         }
     }
