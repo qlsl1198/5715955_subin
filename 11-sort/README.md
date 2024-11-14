@@ -1,5 +1,7 @@
+[result]
 <img src="./result.png" alt="Result Image">
 
+[code]
 <table width="100%">
   <tr>
     <td align="left" width="33%">
