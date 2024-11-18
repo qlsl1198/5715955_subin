@@ -51,7 +51,7 @@ void doSelectionSort(int randomData[]) {
     }
 }
 
-void doInsertionSort(int originalData[]) {
+void doInsertionSort(int randomData[]) {
     int totalComparisons = 0;
     int insert_sortedData[SIZE];
     srand(time(NULL));
@@ -76,7 +76,7 @@ void doInsertionSort(int originalData[]) {
     
     // 원래 배열을 정렬
     for (int i = 0; i < SIZE; i++) {
-        insert_sortedData[i] = originalData[i];
+        insert_sortedData[i] = randomData[i];
     }
     for (int i = 1; i < SIZE; i++) {
         int key = insert_sortedData[i];
@@ -93,7 +93,7 @@ void doInsertionSort(int originalData[]) {
     printArray(insert_sortedData, SIZE);
 }
 
-void doBubbleSort(int originalData[]) {
+void doBubbleSort(int randomData[]) {
     int totalSwaps = 0;
     int bubble_sortedData[SIZE];
     srand(time(NULL));
@@ -115,7 +115,7 @@ void doBubbleSort(int originalData[]) {
     
     // 원래 배열을 정렬
     for (int i = 0; i < SIZE; i++) {
-        bubble_sortedData[i] = originalData[i];
+        bubble_sortedData[i] = randomData[i];
     }
     for (int i = 0; i < SIZE - 1; i++) {
         for (int j = 0; j < SIZE - i - 1; j++) {
