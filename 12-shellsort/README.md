@@ -9,6 +9,6 @@
   </div>
   <div style="margin-left: 20px;">
     <img src="./code1-2.png" alt="사진3" width="500"; height: 200px;">
-    <img src="./code2-2.png" alt="사진4" width="500"; height: 200px;">
+    <img src="./code2-2.png" alt="사진4" width="500"; height: 100px;">
   </div>
 </div>
