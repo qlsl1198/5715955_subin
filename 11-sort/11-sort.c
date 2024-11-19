@@ -5,7 +5,7 @@
 #define SIZE 100
 #define MAX_VALUE 999
 
-void swap(int *a, int *b){
+void swap(int *a, int *b){ // 스왑 함수
     int temp = *a;
     *a = *b;
     *b = temp;
@@ -54,11 +54,11 @@ void doSelectionSort(int randomData[]) {
 void doInsertionSort(int randomData[]) {
     int totalComparisons = 0;
     int insert_sortedData[SIZE];
-    srand(time(NULL));
+    srand(time(NULL)); // 랜덤 시드 생성
     
     for (int k = 0; k < 20; k++) {
         int tempData[SIZE];
-        generateRandomData(tempData);
+        generateRandomData(tempData); // 랜덤 배열 생성 20번 반복
         int comparisons = 0;
         for (int i = 1; i < SIZE; i++) {
             int key = tempData[i];
@@ -76,7 +76,7 @@ void doInsertionSort(int randomData[]) {
     
     // 원래 배열을 정렬
     for (int i = 0; i < SIZE; i++) {
-        insert_sortedData[i] = randomData[i];
+        insert_sortedData[i] = randomData[i]; // 기존 배열 값 저장
     }
     for (int i = 1; i < SIZE; i++) {
         int key = insert_sortedData[i];
@@ -96,11 +96,11 @@ void doInsertionSort(int randomData[]) {
 void doBubbleSort(int randomData[]) {
     int totalSwaps = 0;
     int bubble_sortedData[SIZE];
-    srand(time(NULL));
+    srand(time(NULL)); // 랜덤 시드 생성
     
     for (int k = 0; k < 20; k++) {
         int tempData[SIZE];
-        generateRandomData(tempData);
+        generateRandomData(tempData); // 랜덤 배열 생성 20번 반복
         int swaps = 0;
         for (int i = 0; i < SIZE - 1; i++) {
             for (int j = 0; j < SIZE - i - 1; j++) {
@@ -115,7 +115,7 @@ void doBubbleSort(int randomData[]) {
     
     // 원래 배열을 정렬
     for (int i = 0; i < SIZE; i++) {
-        bubble_sortedData[i] = randomData[i];
+        bubble_sortedData[i] = randomData[i]; // 기존 배열 값 저장
     }
     for (int i = 0; i < SIZE - 1; i++) {
         for (int j = 0; j < SIZE - i - 1; j++) {
