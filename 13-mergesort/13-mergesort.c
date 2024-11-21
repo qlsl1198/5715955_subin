@@ -78,20 +78,26 @@ void doMergeSort(int list[], int left, int right){
 
 // bonus code
 void iterativeMergeSort(int list[], int n) {
-    int curr_size;
-    int left_start;
+    int curr_size;     // 현재 병합할 부분 배열의 크기
+    int left_start;    // 부분 배열의 시작 인덱스
 
+    // 단계적으로 부분 배열의 크기를 1에서부터 점점 2배씩 증가시키며 정렬
     for (curr_size = 1; curr_size <= n - 1; curr_size = 2 * curr_size) {
+        // 각 병합 단계에서 부분 배열의 시작 위치를 순차적으로 진행
         for (left_start = 0; left_start < n - 1; left_start += 2 * curr_size) {
+            // 부분 배열의 중간 지점을 계산
             int mid = left_start + curr_size - 1;
+
+            // 병합할 오른쪽 부분 배열의 끝 지점을 계산
+            // 배열의 끝을 초과하지 않도록 조건 추가
             int right_end = (left_start + 2 * curr_size - 1 < n - 1) ? 
                             (left_start + 2 * curr_size - 1) : (n - 1);
 
+            // 부분 배열을 병합
             merge(list, left_start, mid, right_end);
         }
     }
 }
-
 int main() {
     int array[SIZE];
 
@@ -115,7 +121,7 @@ int main() {
         totalMoves += moveCount;
     }
 
-    printf("\n\nAverage Comparisons: %.2f\n", totalComparisons / 20.0);
+    printf("\nAverage Comparisons: %.2f\n", totalComparisons / 20.0);
     printf("Average Moves: %.2f\n", totalMoves / 20.0);
 
     return 0;
