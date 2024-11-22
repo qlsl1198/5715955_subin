@@ -20,54 +20,59 @@ void swap(int *a, int *b) {
     moveCount += 3;
 }
 
+// 퀵 정렬의 파티션 함수
 int partition(int arr[], int low, int high) {
-    int pivot = arr[high];
-    int i = (low - 1);
+    int pivot = arr[high];  // 피벗을 배열의 마지막 요소로 선택
+    int i = (low - 1);      // 작은 요소의 인덱스
 
+    // 피벗보다 작은 모든 요소를 왼쪽으로 이동
     for (int j = low; j <= high - 1; j++) {
-        comparisonCount++;
+        comparisonCount++;  // 비교 횟수 증가
         if (arr[j] < pivot) {
-            i++;
-            swap(&arr[i], &arr[j]);
+            i++;  // 작은 요소의 인덱스 증가
+            swap(&arr[i], &arr[j]);  // 현재 요소를 작은 요소 영역으로 swap
         }
     }
-    swap(&arr[i + 1], &arr[high]);
-    return (i + 1);
+    swap(&arr[i + 1], &arr[high]);  // 피벗을 올바른 위치로 이동
+    return (i + 1);  // 피벗의 최종 위치 반환
 }
 
+// 반복적 퀵 정렬 함수
 void doQuickSort(int arr[], int low, int high) {
-    int stack[STACK_SIZE];
-    int top = -1;
+    int stack[STACK_SIZE];  // 스택을 사용하여 재귀 호출 대신 반복 구현
+    int top = -1;  // 스택의 top 인덱스
 
+    // 초기 하위 배열 범위를 스택에 push
     stack[++top] = low;
     stack[++top] = high;
 
-    while (top >= 0) {
-        high = stack[top--];
-        low = stack[top--];
+    while (top >= 0) {  // 스택이 비어있지 않은 동안 반복
+        high = stack[top--];  // 현재 하위 배열의 high 인덱스
+        low = stack[top--];   // 현재 하위 배열의 low 인덱스
 
-        int pi = partition(arr, low, high);
+        int pi = partition(arr, low, high);  // 파티션 수행
 
+        // 매 10번째 라운드마다 배열의 일부를 출력 (디버깅 또는 진행 상황 확인용)
         if (rounds % 10 == 0 && isFirst == 0) {
             for (int i = 40; i < 60; i++) {
                 printf("%d ", arr[i]);
             }
             printf("\n\n");
         }
-        rounds++;
+        rounds++;  // 라운드 수 증가
 
+        // 왼쪽 하위 배열이 존재하면 스택에 push
         if (pi - 1 > low) {
             stack[++top] = low;
             stack[++top] = pi - 1;
         }
 
+        // 오른쪽 하위 배열이 존재하면 스택에 push
         if (pi + 1 < high) {
             stack[++top] = pi + 1;
             stack[++top] = high;
         }
-        
     }
-    
 }
 
 void generateRandomArray(int arr[]) {
