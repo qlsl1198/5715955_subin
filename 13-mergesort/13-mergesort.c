@@ -94,7 +94,8 @@ void iterativeMergeSort(int list[], int n) {
                             (left_start + 2 * curr_size - 1) : (n - 1);
 
             // 부분 배열을 병합
-            merge(list, left_start, mid, right_end);
+            if (mid < n-1)
+                merge(list, left_start, mid, right_end);
         }
     }
 }
