@@ -9,6 +9,10 @@
     </td>
     <td align="center" width="50%">
       <img src="./code-2.png" alt="Code 2" width="600">
+    </td>
+  </tr>
+</table>
+
 
 ## [sorting]
 
