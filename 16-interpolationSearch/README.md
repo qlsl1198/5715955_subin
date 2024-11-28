@@ -8,17 +8,17 @@
 ## [reason]
 # 시간 복잡도 차이
 
-**퀵 정렬 (Quick Sort)**
+**퀵 정렬 (Quick Sort)**  
 - 평균 시간 복잡도: O(n log n)
 - 최악의 경우 시간 복잡도: O(n²)
 - 정렬 과정에서 많은 비교가 이루어지지만, 한 번만 수행됨
 
-**이진 탐색 (Binary Search)**
+**이진 탐색 (Binary Search)**  
 - 시간 복잡도: O(log n)
 - 정렬된 배열에서만 사용 가능
 - 각 단계마다 검색 범위를 절반으로 줄임
 
-**보간 탐색 (Interpolation Search)**
+**보간 탐색 (Interpolation Search)**  
 - 평균 시간 복잡도: O(log(log n))
 - 최악의 경우 시간 복잡도: O(n)
 - 균일하게 분포된 데이터에서 이진 탐색보다 효율적
